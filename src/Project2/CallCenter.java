@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 
@@ -20,7 +22,7 @@ public class CallCenter {
        and are shared by all the objects of the class.)
      */
 
-    Queue<Customer> waitingQueue = new LinkedList<>();
+    private static final Queue<Integer> waitingQueue = new LinkedList<>();
     /*
        When admittedNewCustomer is -1 it means the greeter is available;
        A new customer will set it to her customer ID upon calling in.
@@ -136,9 +138,15 @@ public class CallCenter {
         }
 
         public void run(){
-         /*
-             Please add your implementation of the run method.
-          */
+            while(true){
+                System.out.println(waitingQueue);
+                if(!(admittedNewCustomer == -1)){
+                    int id = admittedNewCustomer;
+                    admittedNewCustomer = -1;
+                    greet(id,waitingQueue.size()*2);
+                    waitingQueue.add(id);
+                }
+            }
         }
 
     }
@@ -233,6 +241,7 @@ public class CallCenter {
                 For this simulation, a new customer call arrives every
                 5 milliseconds.
              */
+
             try {
                 sleep(5);
             }catch (InterruptedException e) {
