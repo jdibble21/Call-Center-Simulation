@@ -112,9 +112,13 @@ public class CallCenter {
         }
 
         public void run() {
-          /*
-              Please add your implementation of the run method here.
-           */
+            int customersServed = 0;
+                if(!(waitingQueue.isEmpty())){
+                    serve(waitingQueue.remove());
+                    customersServed++;
+                }
+
+
         }
     }
 
@@ -138,14 +142,19 @@ public class CallCenter {
         }
 
         public void run(){
-            while(true){
-                System.out.println(waitingQueue);
-                if(!(admittedNewCustomer == -1)){
-                    int id = admittedNewCustomer;
-                    admittedNewCustomer = -1;
-                    greet(id,waitingQueue.size()*2);
-                    waitingQueue.add(id);
+            while (true) {
+                try {
+                    if (!(admittedNewCustomer == -1)) {
+                        int id = admittedNewCustomer;
+                        admittedNewCustomer = -1;
+                        greet(id, waitingQueue.size() * 2);
+                        waitingQueue.add(id);
+                    }
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
+
             }
         }
 
