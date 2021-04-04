@@ -150,7 +150,7 @@ public class CallCenter {
             int customersServed = 0;
             while (!(customersServed >= NUMBER_OF_CUSTOMERS)) {
                 try {
-                    Thread.sleep(0);
+                    sleep(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -159,7 +159,6 @@ public class CallCenter {
                     admittedNewCustomer = -1;
                     greet(id, waitingQueue.size() * 2);
                     waitingQueue.add(id);
-                    //System.out.println(waitingQueue);
                     customersServed++;
                 }
             }
