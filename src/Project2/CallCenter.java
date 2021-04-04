@@ -113,12 +113,17 @@ public class CallCenter {
 
         public void run() {
             int customersServed = 0;
+            while(!(customersServed >= CUSTOMERS_PER_AGENT)){
+                try {
+                    sleep(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if(!(waitingQueue.isEmpty())){
                     serve(waitingQueue.remove());
                     customersServed++;
                 }
-
-
+            }
         }
     }
 
@@ -142,19 +147,21 @@ public class CallCenter {
         }
 
         public void run(){
-            while (true) {
+            int customersServed = 0;
+            while (!(customersServed >= NUMBER_OF_CUSTOMERS)) {
                 try {
-                    if (!(admittedNewCustomer == -1)) {
-                        int id = admittedNewCustomer;
-                        admittedNewCustomer = -1;
-                        greet(id, waitingQueue.size() * 2);
-                        waitingQueue.add(id);
-                    }
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
+                    Thread.sleep(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
+                if (!(admittedNewCustomer == -1) ) {
+                    int id = admittedNewCustomer;
+                    admittedNewCustomer = -1;
+                    greet(id, waitingQueue.size() * 2);
+                    waitingQueue.add(id);
+                    //System.out.println(waitingQueue);
+                    customersServed++;
+                }
             }
         }
 
@@ -262,7 +269,6 @@ public class CallCenter {
             Shutdown the Executor so that the program can exit.
          */
         es.shutdown();
-
     }
 
 }
